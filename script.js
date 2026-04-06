@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             error: function(err) {
                 console.error("Failed to fetch guest list:", err);
                 guestNameEl.innerText = guestParam ? guestParam.replace(/\+/g, ' ') : "Tamu Undangan";
+                alert(err+ "   error");
             }
         });
     } else {
