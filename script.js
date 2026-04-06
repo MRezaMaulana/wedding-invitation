@@ -24,13 +24,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 let foundName = null;
                 
                 // Search in data
+                // Search in data (Versi Anti-Gagal)
                 for (let i = 0; i < data.length; i++) {
                     const row = data[i];
-                    if ((guestId && row['Uniq Id'] === guestId) || 
-                        (guestParam && row['Uniq Id'] === guestParam) ||
-                        (guestParam && row['Nama'] === guestParam)) {
-                        foundName = row['Nama'];
-                        //alert(foundName);
+                    
+                    // Ambil data kolom, ubah ke string, dan buang spasi (trim)
+                    const rowId = row['Uniq Id'] ? row['Uniq Id'].toString().trim() : "";
+                    const rowNama = row['Nama'] ? row['Nama'].toString().trim() : "";
+
+                    // Bersihkan input dari URL (trim)
+                    const cleanGuestId = guestId ? guestId.trim() : null;
+                    const cleanGuestParam = guestParam ? guestParam.trim() : null;
+
+                    // Bandingkan dengan mengabaikan Huruf Besar/Kecil (toLowerCase)
+                    if (
+                        (cleanGuestId && rowId.toLowerCase() === cleanGuestId.toLowerCase()) || 
+                        (cleanGuestParam && rowId.toLowerCase() === cleanGuestParam.toLowerCase()) ||
+                        (cleanGuestParam && rowNama.toLowerCase() === cleanGuestParam.toLowerCase())
+                    ) {
+                        foundName = rowNama;
                         break;
                     }
                 }
