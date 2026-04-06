@@ -30,26 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
                         (guestParam && row['Uniq Id'] === guestParam) ||
                         (guestParam && row['Nama'] === guestParam)) {
                         foundName = row['Nama'];
-                        alert(foundName);
+                        //alert(foundName);
                         break;
                     }
                 }
                 
                 if (foundName) {
                     guestNameEl.innerText = foundName;
-                    alert(foundName+ "2");
+                    //alert(foundName+ "2");
                 } else if (guestParam) {
                     guestNameEl.innerText = guestParam.replace(/\+/g, ' ');
-                    alert(foundName+ "3");
+                    //alert(foundName+ "3");
                 } else {
                     guestNameEl.innerText = "Tamu Undangan";
-                    alert(foundName+ "4");
+                    //alert(foundName+ "4");
                 }
             },
             error: function(err) {
                 console.error("Failed to fetch guest list:", err);
                 guestNameEl.innerText = guestParam ? guestParam.replace(/\+/g, ' ') : "Tamu Undangan";
-                alert(err+ "   error");
+                //alert(err+ "   error");
             }
         });
     } else {
