@@ -24,44 +24,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 let foundName = null;
                 
                 // Search in data
-                // Search in data (Versi Anti-Gagal)
                 for (let i = 0; i < data.length; i++) {
                     const row = data[i];
-                    
-                    // Ambil data kolom, ubah ke string, dan buang spasi (trim)
-                    const rowId = row['Uniq Id'] ? row['Uniq Id'].toString().trim() : "";
-                    const rowNama = row['Nama'] ? row['Nama'].toString().trim() : "";
-
-                    // Bersihkan input dari URL (trim)
-                    const cleanGuestId = guestId ? guestId.trim() : null;
-                    const cleanGuestParam = guestParam ? guestParam.trim() : null;
-
-                    // Bandingkan dengan mengabaikan Huruf Besar/Kecil (toLowerCase)
-                    if (
-                        (cleanGuestId && rowId.toLowerCase() === cleanGuestId.toLowerCase()) || 
-                        (cleanGuestParam && rowId.toLowerCase() === cleanGuestParam.toLowerCase()) ||
-                        (cleanGuestParam && rowNama.toLowerCase() === cleanGuestParam.toLowerCase())
-                    ) {
-                        foundName = rowNama;
+                    if ((guestId && row['Uniq Id'] === guestId) || 
+                        (guestParam && row['Uniq Id'] === guestParam) ||
+                        (guestParam && row['Nama'] === guestParam)) {
+                        foundName = row['Nama'];
                         break;
                     }
                 }
                 
                 if (foundName) {
                     guestNameEl.innerText = foundName;
-                    //alert(foundName+ "2");
                 } else if (guestParam) {
                     guestNameEl.innerText = guestParam.replace(/\+/g, ' ');
-                    //alert(foundName+ "3");
                 } else {
                     guestNameEl.innerText = "Tamu Undangan";
-                    //alert(foundName+ "4");
                 }
             },
             error: function(err) {
                 console.error("Failed to fetch guest list:", err);
                 guestNameEl.innerText = guestParam ? guestParam.replace(/\+/g, ' ') : "Tamu Undangan";
-                //alert(err+ "   error");
             }
         });
     } else {
@@ -89,35 +72,41 @@ document.addEventListener("DOMContentLoaded", () => {
         mainContent.classList.remove('hidden-content');
         document.body.classList.remove('no-scroll');
         
-        // Confetti Canvas (Love and Roses)
+        // Confetti Canvas (Maroon Colors)
         if(typeof confetti !== 'undefined') {
             var defaults = {
-                spread: 120,
-                ticks: 300,
-                gravity: 0.8,
-                decay: 0.94,
-                startVelocity: 40,
-                colors: ['#FFC0CB', '#FF0000', '#D4AF37', '#7A0A15']
+                spread: 180,
+                ticks: 400,
+                gravity: 0.6,
+                decay: 0.92,
+                startVelocity: 50,
+                colors: ['#7A0A15', '#8B1A25', '#9B2430', '#6B050F', '#5D030C', '#A52A2A']
             };
 
-            const love = confetti.shapeFromText({ text: '❤️', scalar: 2 });
-            const rose = confetti.shapeFromText({ text: '🌹', scalar: 2 });
-
+            // First wave - Maroon circles
             confetti({
                 ...defaults,
-                particleCount: 60,
-                shapes: [love],
-                scalar: 2
+                particleCount: 200,
+                scalar: 1.2
             });
 
+            // Second wave
             setTimeout(() => {
                 confetti({
                     ...defaults,
-                    particleCount: 40,
-                    shapes: [rose],
-                    scalar: 2
+                    particleCount: 150,
+                    scalar: 1
                 });
-            }, 300);
+            }, 200);
+
+            // Third wave
+            setTimeout(() => {
+                confetti({
+                    ...defaults,
+                    particleCount: 100,
+                    scalar: 0.8
+                });
+            }, 400);
         }
         
         // Play music
@@ -145,8 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 5. Countdown Timer
-    // Setting Date: March 29, 2026 08:00:00
-    const countDownDate = new Date("Mar 29, 2026 08:00:00").getTime();
+    // Setting Date: May 24, 2026 08:00:00
+    const countDownDate = new Date("May 24, 2026 08:00:00").getTime();
 
     const updateCountdown = () => {
         const now = new Date().getTime();
@@ -180,20 +169,25 @@ document.addEventListener("DOMContentLoaded", () => {
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: "auto",
+        speed: 800,
         coverflowEffect: {
-            rotate: 15,
+            rotate: 8,
             stretch: 0,
-            depth: 150,
-            modifier: 1,
-            slideShadows: true,
+            depth: 300,
+            modifier: 1.2,
+            slideShadows: false,
         },
         loop: true,
         autoplay: {
-            delay: 3000,
+            delay: 3500,
             disableOnInteraction: false,
+        },
+        keyboard: {
+            enabled: true,
         },
         pagination: {
             el: ".swiper-pagination",
+            clickable: true,
         },
         navigation: {
             nextEl: ".swiper-button-next",
